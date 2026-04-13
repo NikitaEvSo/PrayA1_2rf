@@ -1,7 +1,10 @@
 package com.example.praya1.screen
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,7 +18,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.praya1.components.PButton
@@ -34,12 +40,15 @@ fun DetailsScreen(model: MainViewModel) {
     }, bottomBar = {
         BottomAppBar {
 
-                PButton(model,if (model.cartNotContainItem()) "Добавить в корзину" else { "Уже в корзине"
-                },Screens.Catalog) {
-                    if (model.cartNotContainItem()) {
-                        model.addToCart()
-                    }
+            PButton(
+                model, if (model.cartNotContainItem()) "Добавить в корзину" else {
+                    "Уже в корзине"
+                }, Screens.Catalog, Modifier.fillMaxWidth()
+            ) {
+                if (model.cartNotContainItem()) {
+                    model.addToCart()
                 }
+            }
         }
     }) { it ->
         Column(
@@ -48,19 +57,34 @@ fun DetailsScreen(model: MainViewModel) {
                 .padding(it)
         ) {
             val pageState = rememberPagerState { model.selectedProduct!!.images.size }
-            HorizontalPager(
-                pageState
+            Box(contentAlignment = Alignment.Center) {
+                HorizontalPager(
+                    pageState, modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(0.45f)
 
-            ) { page ->
-                Image(
-                    painter = painterResource(model.selectedProduct!!.images[page]),
-                    contentDescription = null,
-                    modifier = Modifier.Companion.height(200.dp)
-                )
+                ) { page ->
+                    Image(
+                        painter = painterResource(model.selectedProduct!!.images[page]),
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color(124, 124, 124, 255)),
+                        alignment = Alignment.Center,
+                        contentScale = ContentScale.Fit
+
+                    )
+                }
             }
-            Text(model.selectedProduct!!.name)
-            Text(model.selectedProduct!!.price.toString())
-            Text(model.selectedProduct!!.desc)
+            Column(Modifier.padding(5.dp)) {
+                Text(model.selectedProduct!!.name)
+                Text(model.selectedProduct!!.price.toString())
+
+                Column (Modifier.padding(4.dp)){
+                    Text("Описание")
+                    Text(model.selectedProduct!!.desc)
+                }
+            }
         }
     }
 }

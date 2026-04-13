@@ -20,18 +20,18 @@ class MainViewModel : ViewModel() {
 
         ProductData(
             listOf(R.drawable.ic_launcher_background),
-            name = "1",
-            desc = "",
+            name = "first",
+            desc = "first product",
             1000
         ), ProductData(
             listOf(R.drawable.ic_launcher_background),
-            name = "2",
-            desc = "",
+            name = "Second",
+            desc = "Second product",
             1000
         ), ProductData(
             listOf(R.drawable.ic_launcher_background),
-            name = "3",
-            desc = "",
+            name = "Third",
+            desc = "Third product",
             1000
         )
     )
