@@ -11,9 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -33,8 +37,8 @@ import com.example.praya1.models.Screens
 fun DetailsScreen(model: MainViewModel) {
     Scaffold(topBar = {
         TopAppBar(title = {
-            Button(onClick = { model.navigateTo(Screens.Catalog) }) {
-                Text("<")
+            IconButton(onClick = { model.navigateTo(Screens.Catalog) }) {
+                Icon(Icons.Default.ArrowBackIosNew,null)
             }
         })
     }, bottomBar = {
@@ -71,7 +75,7 @@ fun DetailsScreen(model: MainViewModel) {
                             .fillMaxSize()
                             .background(Color(124, 124, 124, 255)),
                         alignment = Alignment.Center,
-                        contentScale = ContentScale.Fit
+                        contentScale = ContentScale.Crop
 
                     )
                 }

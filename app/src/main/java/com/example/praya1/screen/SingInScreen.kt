@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,23 +37,27 @@ import com.example.praya1.models.Screens
 fun SingInScreen(
     model: MainViewModel
 ) {
+
     Scaffold(
 
         topBar = { CenterAlignedTopAppBar(title = { Text("Авторизация") }) }) {
 
         var emailState = rememberTextFieldState()
         var loginState = rememberTextFieldState()
-        var password by remember { mutableStateOf("") }
+        var password by rememberSaveable() { mutableStateOf("") }
         var isHidden by remember { mutableStateOf(true) }
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Companion.CenterHorizontally,
             modifier = Modifier.Companion
                 .fillMaxSize()
-                .background(color = Color(215, 215, 215, 255))
+                .background(color = Color(227, 226, 226, 255))
                 .padding(it)
                 .padding(horizontal = 20.dp)
         ) {
+            if (model.account != null) {
+                model.navigateTo(Screens.Catalog)
+            }
             TextField(state = emailState, label = { Text("Почта") }, supportingText = {
                 if (emailState.text.toString().isNotBlank() && !Patterns.EMAIL_ADDRESS.matcher(
                         emailState.text.toString()

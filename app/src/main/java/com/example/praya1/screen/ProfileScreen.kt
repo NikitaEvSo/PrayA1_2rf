@@ -67,7 +67,7 @@ fun ProfileScreen(model: MainViewModel) {
                         .clickable(onClick = {
                             model.resetAccount()
                             model.navigateTo(Screens.SingIn)
-                        })
+                        }), verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Выйти", color = Color.Red)
                 }

@@ -12,9 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -45,17 +51,19 @@ fun RegistrationScreen(
     val loginState = rememberTextFieldState()
     var password by remember { mutableStateOf("") }
     var isHidden by remember { mutableStateOf(true) }
-
+    if (model.account!=null){
+        model.navigateTo(Screens.Catalog)
+    }
     Scaffold(
 
         topBar = {
             CenterAlignedTopAppBar(
                 title = { Text("Регистрация") },
-                navigationIcon = { Button(onClick = { model.navigateTo(Screens.SingIn) }) { Text("<") } })
+                navigationIcon = { IconButton(onClick = { model.navigateTo(Screens.SingIn) }) { Icon(Icons.Default.ArrowBackIosNew,null )} })
         }) {
         Column(
-            horizontalAlignment = Alignment.Companion.CenterHorizontally,
-            modifier = Modifier.Companion
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
                 .fillMaxSize()
                 .background(color = Color(255, 255, 255, 255))
                 .padding(it)
@@ -83,7 +91,7 @@ fun RegistrationScreen(
                     trailingIcon = {
                         Button(onClick = {
                             isHidden = !isHidden
-                        }) { if (isHidden) Text("-") else Text("0") }
+                        }) { if (isHidden) Icon(Icons.Default.Remove,null)  else Icon(Icons.Default.RemoveRedEye,null) }
                     },
                     supportingText = { if (!password.isNotBlank()) Text("Заполните все поля ") })
             }

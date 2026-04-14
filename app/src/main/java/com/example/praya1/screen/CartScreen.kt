@@ -12,10 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,11 +42,11 @@ import com.example.praya1.models.Screens
 fun CartScreen(model: MainViewModel) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text("Корзина") }, actions = {
-            if (model.cart.isNotEmpty()) Button(shape = CircleShape,onClick = {
+            if (model.cart.isNotEmpty()) IconButton(shape = CircleShape,onClick = {
                 model.cart.forEach {
                     model.deleteCartItem(it.productData)
                 }
-            }) { Text("X") }
+            }) { Icon(Icons.Default.Delete,null) }
         })
     }, bottomBar = { BottomBar(onNavigate = { model.navigateTo(it) }, model = model) }) {
         Surface(
@@ -60,13 +64,14 @@ fun CartScreen(model: MainViewModel) {
                 PButton(model, "Перейти к каталогу", Screens.Catalog)
             } else Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceAround
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
+                Spacer(Modifier.height(20.dp))
                 LazyColumn(Modifier.fillMaxWidth()) {
                     itemsIndexed(model.cart) { index, item ->
                         Card {
                             CartRow(item, index, model)
-                            Spacer(Modifier.height(2.dp))
+                            Spacer(Modifier.height(8.dp))
                         }
                     }
                 }

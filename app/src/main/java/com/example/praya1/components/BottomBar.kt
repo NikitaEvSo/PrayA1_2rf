@@ -4,13 +4,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.LocalFlorist
+import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.example.praya1.models.MainViewModel
@@ -21,38 +28,51 @@ fun BottomBar(onNavigate: (Screens) -> Unit, model: MainViewModel) {
     val current = model.screen.name
     BottomAppBar {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Column {
-                TextButton(onClick = { onNavigate(Screens.Catalog) }) {
+
+            TextButton(onClick = { onNavigate(Screens.Catalog) }) {
+                Column (horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(Icons.Default.LocalFlorist, null,tint =if (current == Screens.Catalog.name) Color(
+                        103, 105, 197, 255
+                    ) else Color(0, 0, 0))
                     Text(
-                        "Каталог",
-                        color =  if (current == Screens.Catalog.name) Color(0, 0, 0) else Color(
-                            103,
-                            105,
-                            197,
-                            255
-                        )
+                        "Каталог", color = if (current == Screens.Catalog.name) Color(
+                            103, 105, 197, 255
+                        ) else Color(0, 0, 0)
                     )
                 }
             }
-            Column {
-                TextButton(onClick = { onNavigate(Screens.Cart) }) { Text("Корзина",
-                    color =  if (current == Screens.Cart.name) Color(0, 0, 0) else Color(
-                        103,
-                        105,
-                        197,
-                        255
-                    )) }
-            }
-            Column {
-                TextButton(onClick = { onNavigate(Screens.Profile) }) { Text("Профиль",
-                    color =  if (current == Screens.Profile.name) Color(0, 0, 0) else Color(
-                        103,
-                        105,
-                        197,
-                        255
-                    )) }
 
+            TextButton(onClick = { onNavigate(Screens.Cart) }) {
+                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                    Icon(
+                        Icons.Default.ShoppingBag,
+                        null,
+                        tint = if (current == Screens.Cart.name) Color(
+                            103, 105, 197, 255
+                        ) else Color(0, 0, 0)
+                    )
+
+                    Text(
+                        "Корзина", color = if (current == Screens.Cart.name) Color(
+                            103, 105, 197, 255
+                        ) else Color(0, 0, 0)
+                    )
+                }
             }
+
+            TextButton(onClick = { onNavigate(Screens.Profile) }) {
+                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                    Icon(Icons.Default.AccountCircle, null,tint =if (current == Screens.Profile.name) Color(
+                        103, 105, 197, 255
+                    ) else Color(0, 0, 0))
+                    Text(
+                        "Профиль", color = if (current == Screens.Profile.name) Color(
+                            103, 105, 197, 255
+                        ) else Color(0, 0, 0)
+                    )
+                }
+            }
+
         }
     }
 }
