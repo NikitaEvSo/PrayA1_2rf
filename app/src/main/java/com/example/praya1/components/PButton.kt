@@ -16,7 +16,7 @@ fun PButton(
     model: MainViewModel, text: String, screen: Screens, modifier: Modifier = Modifier
     , command: () -> Unit = {}
 ) {
-    Button(shape = RoundedCornerShape(5 ),
+    Button(shape = RoundedCornerShape(25),
         colors = buttonColors(
             containerColor = Color(80, 36, 238, 255),
             contentColor = Color(255, 255, 255, 255),

@@ -25,7 +25,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         application.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
     val productData = listOf(
         ProductData(
-            images = listOf(R.drawable.image1),
+            images = listOf(R.drawable.image1,R.drawable.image1),
             name = "Собака",
             desc = "Игривая собака: любит прогулки и игры на свежем воздухе.",
             price = 1000

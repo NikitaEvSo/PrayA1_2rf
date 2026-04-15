@@ -3,13 +3,16 @@ package com.example.praya1.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -37,6 +40,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -55,21 +59,27 @@ fun CatalogScreen(model: MainViewModel) {
             OutlinedTextField(
                 state = searchState,
                 leadingIcon = {
-                    Icon(Icons.Default.Search,null)
-                }
-                ,
-                placeholder = { Text("Поиск") },
-                modifier = Modifier.Companion.fillMaxWidth(0.96f).height(30.dp), shape = RoundedCornerShape(14)
+                    Icon(Icons.Default.Search, null)
+                },
+                placeholder = { Text("Поиск", fontSize = 15.sp) },
+                modifier = Modifier
+                    .fillMaxWidth(0.96f)
+                    .height(49.dp),
+                shape = RoundedCornerShape(14),
+                textStyle = TextStyle(
+                    fontSize = 15.sp,
+                )
             )
         })
     }, bottomBar = { BottomBar(onNavigate = { model.navigateTo(it) }, model = model) }
 
     ) { it ->
         LazyVerticalGrid(
-            GridCells.Fixed(2), modifier = Modifier.Companion
+            GridCells.Fixed(2),
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .padding(it)
-                .padding(start = 12.dp , end = 12.dp, top = 3.dp)
+                .padding(start = 12.dp, end = 12.dp, top = 3.dp)
         ) {
 
 
@@ -82,34 +92,57 @@ fun CatalogScreen(model: MainViewModel) {
                 Card(
                     modifier = Modifier.Companion.padding(horizontal = 4.dp, vertical = 8.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black
+                        containerColor = Color.White, contentColor = Color.Black
                     )
                 ) {
                     Column(
-                        Modifier.Companion
-                            .clickable(onClick = {
-                                model.selectNew(it)
-                                model.navigateTo(Screens.Details)
-                            })
+                        Modifier.Companion.clickable(onClick = {
+                            model.selectNew(it)
+                            model.navigateTo(Screens.Details)
+                        })
                     ) {
-                        HorizontalPager(
-                            state = pageState
-                        ) { page ->
+                        Box() {
+                            HorizontalPager(
+                                state = pageState
+                            ) { page ->
 
-                            Image(
-                                painter = painterResource(id = it.images[page]),
-                                contentDescription = null,
+                                Image(
+                                    painter = painterResource(id = it.images[page]),
+                                    contentDescription = null,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(200.dp)
+                                        .clip(RoundedCornerShape(10)),
+                                    alignment = Alignment.TopCenter,
+                                    contentScale = ContentScale.Crop
+                                )
+                            }
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceEvenly,
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp)
-                                    .clip(RoundedCornerShape(10)),
-                                alignment = Alignment.TopCenter,
-                                contentScale = ContentScale.Crop
-                            )
+                                    .clip(RoundedCornerShape(50))
+                                    .background(
+                                        Color(
+                                            203, 203, 203, 185
+                                        )
+                                    )
+                                    .align(alignment = Alignment.BottomCenter)
+                            ) {
+                                if (pageState.pageCount > 1) for (i in 0 until pageState.pageCount) Box(
+                                    Modifier
+                                        .size(8.dp)
+                                        .padding(2.dp)
+                                        .background(
+                                            if (i == pageState.currentPage) Color(
+                                                0, 0, 0
+                                            ) else Color(250, 250, 250, 255)
+                                        )
+
+                                )
+                            }
                         }
-                        Column(Modifier.padding(horizontal = 8.dp, vertical = 6.dp))
-                        {
+                        Column(Modifier.padding(horizontal = 8.dp, vertical = 6.dp)) {
                             Text(
                                 it.name,
                                 fontWeight = FontWeight.Bold,
@@ -121,7 +154,7 @@ fun CatalogScreen(model: MainViewModel) {
                             Text(
                                 it.desc,
                                 fontSize = 15.sp,
-                                color = Color(213, 213, 213, 255),
+                                color = Color(110, 110, 110, 255),
                                 softWrap = true,
                                 overflow = TextOverflow.Ellipsis,
                                 maxLines = 1

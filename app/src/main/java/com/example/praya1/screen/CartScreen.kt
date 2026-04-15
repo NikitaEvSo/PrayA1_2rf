@@ -1,5 +1,6 @@
 package com.example.praya1.screen
 
+import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,16 +44,17 @@ import com.example.praya1.models.Screens
 fun CartScreen(model: MainViewModel) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text("Корзина") }, actions = {
-            if (model.cart.isNotEmpty()) IconButton(shape = CircleShape,onClick = {
+            if (model.cart.isNotEmpty()) IconButton(shape = CircleShape, onClick = {
                 model.cart.forEach {
                     model.deleteCartItem(it.productData)
                 }
-            }) { Icon(Icons.Default.Delete,null) }
+            }) { Icon(Icons.Default.Delete, null) }
         })
     }, bottomBar = { BottomBar(onNavigate = { model.navigateTo(it) }, model = model) }) {
         Surface(
             modifier = Modifier
-                .fillMaxSize().background(Color(192, 192, 192, 255))
+                .fillMaxSize()
+                .background(Color(192, 192, 192, 255))
                 .padding(it)
         ) {
             if (model.cart.isEmpty()) Column(
@@ -66,32 +69,38 @@ fun CartScreen(model: MainViewModel) {
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Spacer(Modifier.height(20.dp))
+
                 LazyColumn(Modifier.fillMaxWidth()) {
+                    item { Spacer(Modifier.height(18.dp)) }
                     itemsIndexed(model.cart) { index, item ->
                         Card {
                             CartRow(item, index, model)
-                            Spacer(Modifier.height(8.dp))
+                            Spacer(Modifier.height(6.dp))
                         }
                     }
                 }
-                Card {
-                    Row(
-                        Modifier
-                            .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Column(Modifier.fillMaxWidth(0.5f)) {
-                            Text("Вся сумма")
-                            Text("${model.sumOfCart()} T", fontWeight = FontWeight.Bold)
-                        }
-                        PButton(
-                            model, "Оформить заказ", Screens.Cart
-                        ) { model.cart.forEach { model.deleteCartItem(it.productData) } }
+
+                Row(
+                    Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(Modifier.fillMaxWidth(0.5f)) {
+                        Text("Вся сумма", color = Color.Gray)
+                        Text(
+                            "${model.sumOfCart()} T",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 25.sp,
+                            color = Color.Black
+                        )
                     }
+                    PButton(
+                        model, "Оформить заказ", Screens.Cart
+                    ) { model.cart.forEach { model.deleteCartItem(it.productData) } }
                 }
             }
         }
+
     }
 }
 

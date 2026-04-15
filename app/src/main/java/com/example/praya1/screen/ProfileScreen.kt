@@ -1,19 +1,26 @@
 package com.example.praya1.screen
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -46,15 +54,16 @@ fun ProfileScreen(model: MainViewModel) {
                 .padding(it)
         ) {
             Column(Modifier.fillMaxSize()) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(
-                        painter = painterResource(R.drawable.ic_launcher_foreground),
+                Column(Modifier.fillMaxWidth(),horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                        Icons.Outlined.AccountCircle,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.size(80.dp)
                     )
-                    Text(model.account?.name ?: "", textAlign = TextAlign.Center, fontSize = 25.sp)
+                    Text(model.account?.name ?: "", textAlign = TextAlign.Center, fontWeight = FontWeight.Bold, fontSize = 30.sp)
                     Text(model.account?.email ?: "", textAlign = TextAlign.Center, fontSize = 20.sp)
                 }
+                Spacer(Modifier.height(24.dp))
                 Row(
                     Modifier
                         .fillMaxWidth()
