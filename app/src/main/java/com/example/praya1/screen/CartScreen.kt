@@ -1,6 +1,5 @@
 package com.example.praya1.screen
 
-import android.R
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,24 +22,22 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.praya1.components.BottomBar
 import com.example.praya1.components.CartRow
-import com.example.praya1.components.PButton
+import com.example.praya1.components.CusButton
 import com.example.praya1.models.MainViewModel
 import com.example.praya1.models.Screens
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CartScreen(model: MainViewModel) {
+fun CartScreen(model: MainViewModel, gotoCat: () -> Unit) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(title = { Text("Корзина") }, actions = {
             if (model.cart.isNotEmpty()) IconButton(shape = CircleShape, onClick = {
@@ -64,12 +60,11 @@ fun CartScreen(model: MainViewModel) {
             ) {
                 Text("В вашей корзине пока пусто", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Text("Добавльте товары из каталога")
-                PButton(model, "Перейти к каталогу", Screens.Catalog)
+                CusButton(
+                    text = "Перейти к каталогу", onClick = { gotoCat() })
             } else Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween
             ) {
-
                 LazyColumn(Modifier.fillMaxWidth()) {
                     item { Spacer(Modifier.height(18.dp)) }
                     itemsIndexed(model.cart) { index, item ->
@@ -79,11 +74,8 @@ fun CartScreen(model: MainViewModel) {
                         }
                     }
                 }
-
                 Row(
-                    Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Column(Modifier.fillMaxWidth(0.5f)) {
                         Text("Вся сумма", color = Color.Gray)
@@ -94,14 +86,15 @@ fun CartScreen(model: MainViewModel) {
                             color = Color.Black
                         )
                     }
-                    PButton(
-                        model, "Оформить заказ", Screens.Cart
-                    ) { model.cart.forEach { model.deleteCartItem(it.productData) } }
+                    CusButton(text = "Оформить заказ", onClick = {
+                        model.navigateTo(Screens.Cart)
+                        model.cart.forEach { model.deleteCartItem(it.productData) }
+                    })
                 }
             }
         }
-
     }
 }
+
 
 

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -19,15 +18,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +34,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.praya1.components.PButton
+import com.example.praya1.components.CusButton
 import com.example.praya1.models.MainViewModel
 import com.example.praya1.models.Screens
 
@@ -49,15 +45,16 @@ fun DetailsScreen(model: MainViewModel) {
         bottomBar = {
             BottomAppBar {
 
-                PButton(
-                    model, if (model.cartNotContainItem()) "Добавить в корзину" else {
+                CusButton( modifier = Modifier.fillMaxWidth(),
+                    text = if (model.cartNotContainItem()) "Добавить в корзину" else {
                         "Уже в корзине"
-                    }, Screens.Catalog, Modifier.fillMaxWidth()
-                ) {
-                    if (model.cartNotContainItem()) {
-                        model.addToCart()
+                    }, onClick = {
+                        model.navigateTo(Screens.Catalog)
+                        if (model.cartNotContainItem()) {
+                            model.addToCart()
+                        }
                     }
-                }
+                )
             }
         }) { it ->
         Column(

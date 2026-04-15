@@ -30,45 +30,41 @@ fun BottomBar(onNavigate: (Screens) -> Unit, model: MainViewModel) {
         Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceBetween) {
 
             TextButton(onClick = { onNavigate(Screens.Catalog) }) {
-                Column (horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.LocalFlorist, null,tint =if (current == Screens.Catalog.name) Color(
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val curColor: Color = if (current == Screens.Catalog.name) Color(
                         103, 105, 197, 255
-                    ) else Color(0, 0, 0))
+                    ) else Color(0, 0, 0)
+                    Icon(
+                        Icons.Default.LocalFlorist, null, tint = curColor
+                    )
                     Text(
-                        "Каталог", color = if (current == Screens.Catalog.name) Color(
-                            103, 105, 197, 255
-                        ) else Color(0, 0, 0)
+                        "Каталог", color = curColor
                     )
                 }
             }
 
             TextButton(onClick = { onNavigate(Screens.Cart) }) {
-                Column (horizontalAlignment = Alignment.CenterHorizontally){
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val curColor: Color = if (current == Screens.Cart.name) Color(
+                        103, 105, 197, 255
+                    ) else Color(0, 0, 0)
                     Icon(
-                        Icons.Default.ShoppingBag,
-                        null,
-                        tint = if (current == Screens.Cart.name) Color(
-                            103, 105, 197, 255
-                        ) else Color(0, 0, 0)
+                        Icons.Default.ShoppingBag, null, tint = curColor
                     )
-
                     Text(
-                        "Корзина", color = if (current == Screens.Cart.name) Color(
-                            103, 105, 197, 255
-                        ) else Color(0, 0, 0)
+                        "Корзина", color = curColor
                     )
                 }
             }
 
             TextButton(onClick = { onNavigate(Screens.Profile) }) {
-                Column (horizontalAlignment = Alignment.CenterHorizontally){
-                    Icon(Icons.Default.AccountCircle, null,tint =if (current == Screens.Profile.name) Color(
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    val curColor: Color = if (current == Screens.Profile.name) Color(
                         103, 105, 197, 255
-                    ) else Color(0, 0, 0))
+                    ) else Color(0, 0, 0)
+                    Icon(Icons.Default.AccountCircle, null, tint = curColor)
                     Text(
-                        "Профиль", color = if (current == Screens.Profile.name) Color(
-                            103, 105, 197, 255
-                        ) else Color(0, 0, 0)
+                        "Профиль", color = curColor
                     )
                 }
             }

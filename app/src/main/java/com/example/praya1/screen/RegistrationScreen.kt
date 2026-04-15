@@ -1,6 +1,5 @@
 package com.example.praya1.screen
 
-import android.graphics.drawable.Icon
 import android.util.Patterns
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
@@ -24,7 +22,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,9 +32,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.praya1.components.PButton
+import com.example.praya1.components.CusButton
 import com.example.praya1.data.Account
 import com.example.praya1.models.MainViewModel
 import com.example.praya1.models.Screens
@@ -51,15 +47,19 @@ fun RegistrationScreen(
     val loginState = rememberTextFieldState()
     var password by remember { mutableStateOf("") }
     var isHidden by remember { mutableStateOf(true) }
-    if (model.account!=null){
+    if (model.account != null) {
         model.navigateTo(Screens.Catalog)
     }
     Scaffold(
 
         topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text("Регистрация") },
-                navigationIcon = { IconButton(onClick = { model.navigateTo(Screens.SingIn) }) { Icon(Icons.Default.ArrowBackIosNew,null )} })
+            CenterAlignedTopAppBar(title = { Text("Регистрация") }, navigationIcon = {
+                IconButton(onClick = { model.navigateTo(Screens.SingIn) }) {
+                    Icon(
+                        Icons.Default.ArrowBackIosNew, null
+                    )
+                }
+            })
         }) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -91,38 +91,32 @@ fun RegistrationScreen(
                     trailingIcon = {
                         Button(onClick = {
                             isHidden = !isHidden
-                        }) { if (isHidden) Icon(Icons.Default.Remove,null)  else Icon(Icons.Default.RemoveRedEye,null) }
+                        }) {
+                            if (isHidden) Icon(
+                                Icons.Default.Remove, null
+                            ) else Icon(Icons.Default.RemoveRedEye, null)
+                        }
                     },
                     supportingText = { if (!password.isNotBlank()) Text("Заполните все поля ") })
             }
+            var isVal: Boolean = password.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
+                emailState.text.toString()
+            ).matches()&& loginState.text.toString().isNotEmpty()
 
-
-            PButton(
-                model = model,
+            CusButton(
+                enabled = isVal,
                 text = "Создать аккаунт",
-                screen = if (loginState.text.toString()
-                        .isNotBlank() && password.isNotBlank() && emailState.text.toString()
-                        .isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(emailState.text.toString())
-                        .matches()
-                ) {
-                    Screens.Catalog
-                } else {
-                    Screens.Registration
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                if (loginState.text.toString()
-                        .isNotBlank() && password.isNotBlank() && emailState.text.toString()
-                        .isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(emailState.text.toString())
-                        .matches()
-                ) model.saveAccount(
-                    Account(
-                        name = loginState.text.toString(),
-                        email = emailState.text.toString(),
-                        password = password,
-                    ),
-                )
-            }
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    model.navigateTo(Screens.Catalog)
+                    model.saveAccount(
+                        Account(
+                            name = loginState.text.toString(),
+                            email = emailState.text.toString(),
+                            password = password,
+                        ),
+                    )
+                })
         }
     }
 }

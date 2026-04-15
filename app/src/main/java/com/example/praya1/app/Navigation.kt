@@ -18,10 +18,10 @@ fun Navigation(
 
     when (screen) {
         Screens.Registration -> RegistrationScreen(model)
-        Screens.SingIn -> SingInScreen(model)
+        Screens.SingIn -> SingInScreen(model) { model.navigateTo(it) }
         Screens.Catalog -> CatalogScreen(model)
         Screens.Details -> DetailsScreen(model)
-        Screens.Cart -> CartScreen(model)
+        Screens.Cart -> CartScreen(model) { model.navigateTo(Screens.Catalog) }
         Screens.Profile -> ProfileScreen(model)
     }
 }

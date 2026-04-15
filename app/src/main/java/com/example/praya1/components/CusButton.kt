@@ -7,21 +7,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.praya1.models.MainViewModel
-import com.example.praya1.models.Screens
 
 @Composable
-fun CusButton2(
-    model: MainViewModel, text: String, screen: Screens, enabled: Boolean= true, modifier: Modifier = Modifier
-    , command: () -> Unit = {}
+fun CusButton(
+    modifier: Modifier = Modifier, enabled: Boolean = true, onClick: () -> Unit, text: String
 ) {
-    Button(shape = RoundedCornerShape(25), enabled = enabled,
-        colors = buttonColors(
+    Button(
+        shape = RoundedCornerShape(25), enabled = enabled, colors = buttonColors(
             containerColor = Color(80, 36, 238, 255),
             contentColor = Color(255, 255, 255, 255),
         ), modifier = modifier, onClick = {
-            command()
-            model.navigateTo(screen)
+            onClick()
         }) {
         Text(text)
     }
