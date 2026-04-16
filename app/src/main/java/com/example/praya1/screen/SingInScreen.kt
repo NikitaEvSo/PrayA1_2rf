@@ -41,8 +41,8 @@ fun SingInScreen(
 
         topBar = { CenterAlignedTopAppBar(title = { Text("Авторизация") }) }) {
 
-        var emailState = rememberTextFieldState()
-        var loginState = rememberTextFieldState()
+        val emailState = rememberTextFieldState()
+        val loginState = rememberTextFieldState()
         var password by rememberSaveable() { mutableStateOf("") }
         var isHidden by remember { mutableStateOf(true) }
         Column(
@@ -79,7 +79,7 @@ fun SingInScreen(
                 supportingText = { if (!password.isNotBlank()) Text("Заполните все поля ") },
                 modifier = Modifier.fillMaxWidth()
             )
-            var isVal: Boolean = password.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
+            val isVal: Boolean = password.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
                 emailState.text.toString()
             ).matches()
 

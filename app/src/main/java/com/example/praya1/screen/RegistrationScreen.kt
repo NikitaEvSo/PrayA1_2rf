@@ -14,6 +14,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,6 +24,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -65,43 +68,56 @@ fun RegistrationScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(255, 255, 255, 255))
-                .padding(it)
-                .padding(horizontal = 10.dp),
+                .background(color = Color(208, 206, 206, 255))
+                .padding(it),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Column {
-                Spacer(Modifier.height(20.dp))
-                TextField(state = emailState, label = { Text("Почта") }, supportingText = {
+                Spacer(Modifier.height(100.dp))
+                TextField(
+                    modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
+                ), state = emailState, label = { Text("Почта") }, supportingText = {
                     if (emailState.text.toString().isNotBlank() && !Patterns.EMAIL_ADDRESS.matcher(
                             emailState.text.toString()
                         ).matches()
                     ) Text("Введите корректный адрес")
                 })
 
-                TextField(state = loginState, label = { Text("Логин") }, supportingText = {
-                    if (!loginState.text.toString().isNotBlank()) Text("Заполните все поля ")
-                })
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                    ), state = loginState, label = { Text("Логин") }, supportingText = {
+                        if (!loginState.text.toString().isNotBlank()) Text("Заполните все поля ")
+                    })
 
                 TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = Color.White,
+                        unfocusedContainerColor = Color.White,
+                    ),
                     value = password,
                     onValueChange = { sit: String -> password = sit },
                     label = { Text("Пароль") },
                     visualTransformation = if (isHidden) PasswordVisualTransformation() else VisualTransformation.Companion.None,
                     trailingIcon = {
-                        Button(onClick = {
+                        IconButton(onClick = {
                             isHidden = !isHidden
                         }) {
                             if (isHidden) Icon(
-                                Icons.Default.Remove, null
-                            ) else Icon(Icons.Default.RemoveRedEye, null)
+                                Icons.Default.VisibilityOff, null
+                            ) else Icon(Icons.Default.Visibility, null)
                         }
                     },
                     supportingText = { if (!password.isNotBlank()) Text("Заполните все поля ") })
             }
             var isVal: Boolean = password.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
                 emailState.text.toString()
-            ).matches()&& loginState.text.toString().isNotEmpty()
+            ).matches() && loginState.text.toString().isNotEmpty()
 
             CusButton(
                 enabled = isVal,
